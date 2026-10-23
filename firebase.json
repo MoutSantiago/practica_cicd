@@ -27,6 +27,23 @@
           {
             "key": "Permissions-Policy",
             "value": "camera=(), microphone=(), geolocation=()"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' sha256-ohBYDP4jDEhpM4V4o0iLmc/txsVyq1JPbtSx6ah7HBw= sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo= sha256-ilnvIjZbJyJS5w0wksE3EOXxyUTLJm0gObV+Pkk6lKE= sha256-u3HsHCA4m5o1ft4BMWLkRupXMFBntK5wV2mRZ5k/30Q= sha256-xpp91qsAgz28ZpJYVC4nKjMF1zI1dPrHLGqfYgnFWTE= sha256-oKD2Tnl7meCTmesceuNhjnoJhpA6FgyyC1ot/hxlKFM= sha256-pSbB9DN68FKEB+ZR47w72TN8wnmdXuvcIbcxOJJME4M= sha256-CobxyTyHtsLFr61FnYk94HF9K8TInPzXVHy4hU6yBCE=; style-src 'self'; img-src 'self' https://picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/_next/static/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       }
