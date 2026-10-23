@@ -10,7 +10,7 @@ El preview tiene vencimiento (`expires: 3d`) porque es un entorno efímero para 
 
 ## 2. ¿Qué diferencia hay entre desplegar y liberar? ¿Dónde aparece cada concepto en este flujo?
 
-**Desplegar** es subir una versión a un entorno (preview o live). **Liberar** es poner esa versión a disposición de los usuarios finales. En este flujo, el workflow despliega automáticamente al canal `live` al mergear a `main`, pero la liberación real ocurre cuando los usuarios acceden a `https://<PROJECT_ID>.web.app/`. El rollback de Firebase revierte lo desplegado sin tocar el código de `main`.
+**Desplegar** es subir una versión a un entorno (preview o live). **Liberar** es poner esa versión a disposición de los usuarios finales. En este flujo, el workflow despliega automáticamente al canal `live` al mergear a `main`, pero la liberación real ocurre cuando los usuarios acceden a `https://practica-d4848.web.app/`. El rollback de Firebase revierte lo desplegado sin tocar el código de `main`.
 
 Como `main` conserva el código nuevo, el próximo merge volverá a desplegar esa versión. En un equipo real se resuelve con un **revert** (commit que deshace los cambios en `main`) o un hotfix, no confiando solo en el rollback de Hosting.
 
@@ -30,13 +30,13 @@ Opciones evaluadas:
 
 ## 5. Para cada header de B2, ¿qué ataque mitiga?
 
-| Header                                           | Ataque que mitiga                                                             |
-| ------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Strict-Transport-Security                        | SSL stripping / downgrade MITM: obliga a HTTPS en visitas futuras.            |
-| X-Content-Type-Options: nosniff                  | XSS por contenido subido: evita que el navegador adivine el tipo de archivo.  |
-| X-Frame-Options: DENY                            | Clickjacking: impide embeber el sitio en un iframe.                           |
-| Referrer-Policy: strict-origin-when-cross-origin | Filtración de datos vía Referer: no expone rutas ni tokens a sitios externos. |
-| Permissions-Policy                               | Espionaje sensorial: deshabilita cámara, micrófono y geolocalización.         |
+| Header                                           | Valor                                                            | Qué hace                                                           | Ataque que mitiga                                                             |
+| ------------------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| Strict-Transport-Security                        | `max-age=31536000; includeSubDomains`                            | Fuerza HTTPS durante 1 año, también en subdominios.                | SSL stripping / downgrade MITM: obliga a HTTPS en visitas futuras.            |
+| X-Content-Type-Options                           | `nosniff`                                                        | Prohíbe que el navegador adivine el tipo de archivo.               | XSS por contenido subido: evita que un archivo malicioso se ejecute como HTML/JS. |
+| X-Frame-Options                                  | `DENY`                                                           | Impide embeber el sitio en un iframe de ningún origen.             | Clickjacking: evita clics no deseados ocultando la página en un iframe.       |
+| Referrer-Policy                                  | `strict-origin-when-cross-origin`                                | Hacia otros sitios envía solo el origen, no ruta ni parámetros.    | Filtración de datos vía Referer: no expone URLs internas ni tokens.           |
+| Permissions-Policy                               | `camera=(), microphone=(), geolocation=()`                       | Deshabilita cámara, micrófono y geolocalización.                   | Espionaje sensorial / rastreo: bloquea sensores aunque un script lo solicite. |
 
 ## 6. ¿Por qué los assets de `/_next/static/` pueden cachearse un año y el HTML no?
 
@@ -48,15 +48,39 @@ Cambiaría de Firebase Hosting (estático, plan Spark, costo cero) a Firebase Ap
 
 ---
 
+## Decisión de seguridad: Content-Security-Policy
+
+La exportación estática de Next.js genera 8 scripts en línea en `cursos.html` (bootstrap de Turbopack y datos de vuelo RSC). Con `script-src 'self'` el navegador los bloquea porque `'self'` solo cubre scripts externos del mismo origen.
+
+Se usaron **hashes `sha256-` explícitos** (uno por script) junto a `'self'` para scripts externos: es el mínimo privilegio, solo esos 8 cuerpos exactos se ejecutan.
+
+- `'unsafe-inline'` se descarta: autoriza cualquier script inyectado (XSS).
+- `nonce-` no aporta seguridad real aquí: en Firebase Hosting los headers son estáticos, así el nonce sería público, y Next.js no puede inyectar uno por-request en HTML prerenderizado.
+
+**Costo operativo:** los hashes están atados a la salida de `next build`; un rebuild puede cambiarlos, obligando a recalcularlos y actualizar `firebase.json` antes de desplegar.
+
+**`img-src`:** además de `'self'`, se permite `https://picsum.photos` (origen de la portada, verificado en Network). No se agregó `data:` ni `blob:` porque la app no los usa.
+
+## Verificación
+
+```bash
+npm run build && npm run serve
+node scripts/check-headers.mjs http://localhost:5000
+```
+
+Los 5 headers aparecen presentes en `/`, `/cursos`, el 404 y los assets estáticos.
+
+---
+
 ## Evidencia de los entregables
 
-| Entregable         | Valor                                                  |
-| ------------------ | ------------------------------------------------------ |
-| URL al repocitorio | `https://github.com/MoutSantiago/practica_cicd`        |
+| Entregable         | Valor                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| URL al repocitorio | `https://github.com/MoutSantiago/practica_cicd`                                                                           |
 | Link a PR mergeado | `https://github.com/MoutSantiago/practica_cicd/pull/7` (incluye el comentario del bot de Firebase con la URL del preview) |
-| URL de producción  | `https://practica-d4848.web.app/`                      |
-| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848`              |
-| Project ID         | `practica-d4848`                                       |
+| URL de producción  | `https://practica-d4848.web.app/`                                                                                         |
+| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848`                                                                                 |
+| Project ID         | `practica-d4848`                                                                                                          |
 
 ### Salida de `check-headers.mjs` **antes**
 
