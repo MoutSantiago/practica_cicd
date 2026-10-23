@@ -6,11 +6,13 @@ Respuestas breves y concretas a las preguntas de la sección 8 del enunciado.
 
 ## 1. ¿Por qué el preview tiene vencimiento? ¿Qué riesgos tendría un preview que no vence nunca?
 
-El preview tiene vencimiento (`expires: 3d`) porque es un entorno efímero para revisar un Pull Request, no un entorno permanente. Si no venciere nunca, se acumularían canales olvidados, se consumiría cuota de Hosting sin necesidad, y quedaría contenido desactualizado o expuesto públicamente sin control, aumentando la superficie de ataque con versiones antiguas de la app.
+El preview tiene vencimiento (`expires: 3d`) porque es un entorno efímero para revisar un Pull Request, no un entorno permanente. Si no vence nunca, se acumularían canales olvidados, se consumiría cuota de Hosting sin necesidad, y quedaría contenido desactualizado o expuesto públicamente sin control, aumentando la superficie de ataque con versiones antiguas de la app.
 
 ## 2. ¿Qué diferencia hay entre desplegar y liberar? ¿Dónde aparece cada concepto en este flujo?
 
 **Desplegar** es subir una versión a un entorno (preview o live). **Liberar** es poner esa versión a disposición de los usuarios finales. En este flujo, el workflow despliega automáticamente al canal `live` al mergear a `main`, pero la liberación real ocurre cuando los usuarios acceden a `https://<PROJECT_ID>.web.app/`. El rollback de Firebase revierte lo desplegado sin tocar el código de `main`.
+
+Como `main` conserva el código nuevo, el próximo merge volverá a desplegar esa versión. En un equipo real se resuelve con un **revert** (commit que deshace los cambios en `main`) o un hotfix, no confiando solo en el rollback de Hosting.
 
 ## 3. ¿Por qué la clave de la service account va en un secreto y no en el repo? ¿Qué podría hacer alguien que la obtenga? ¿Cómo limitarías el daño?
 
@@ -48,11 +50,13 @@ Cambiaría de Firebase Hosting (estático, plan Spark, costo cero) a Firebase Ap
 
 ## Evidencia de los entregables
 
-| Entregable         | Valor                                     |
-| ------------------ | ----------------------------------------- |
-| URL de producción  | `https://practica-d4848.web.app/`         |
-| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848` |
-| Project ID         | `practica-d4848`                          |
+| Entregable         | Valor                                                  |
+| ------------------ | ------------------------------------------------------ |
+| URL al repocitorio | `https://github.com/MoutSantiago/practica_cicd`        |
+| Link a PR mergeado | `https://github.com/MoutSantiago/practica_cicd/pull/7` (incluye el comentario del bot de Firebase con la URL del preview) |
+| URL de producción  | `https://practica-d4848.web.app/`                      |
+| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848`              |
+| Project ID         | `practica-d4848`                                       |
 
 ### Salida de `check-headers.mjs` **antes**
 
@@ -91,3 +95,10 @@ Cambiaría de Firebase Hosting (estático, plan Spark, costo cero) a Firebase Ap
 
   ✅ Todos los controles pasaron.
 ```
+
+### Resultado de rollback en firebase
+
+![rollback](image.png)
+
+**Footer de la ui:**
+![footer](image-1.png)
