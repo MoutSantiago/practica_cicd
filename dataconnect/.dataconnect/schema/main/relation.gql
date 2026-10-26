@@ -1,5 +1,73 @@
 extend type Alumno {
   """
+  ✨ List `Matricula` objects in a one-to-many relationship (where `Matricula`.`alumno` is this object).
+  """
+  matriculas_on_alumno(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Matricula_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Matricula_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Matricula_Having
+  ): [Matricula!]! @fdc_generated(from: "Matricula.alumno", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  ✨ List `Curso` objects using `Matricula` as the join table (a `Matricula` object exists where its `alumno` is this and its `curso` is that).
+  """
+  cursos_via_Matricula(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Matricula_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Matricula_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Matricula_Having
+  ): [Curso!]! @fdc_generated(from: "Matricula", purpose: QUERY_MULTIPLE_MANY_TO_MANY)
+  """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
   _metadata: _Metadata @fdc_generated(from: "Alumno", purpose: METADATA_FIELD)
@@ -40,6 +108,74 @@ extend type Alumno {
   _id: ID! @fdc_generated(from: "Alumno.id", purpose: ENTITY_ID)
 }
 extend type Curso {
+  """
+  ✨ List `Matricula` objects in a one-to-many relationship (where `Matricula`.`curso` is this object).
+  """
+  matriculas_on_curso(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Matricula_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Matricula_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Matricula_Having
+  ): [Matricula!]! @fdc_generated(from: "Matricula.curso", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  ✨ List `Alumno` objects using `Matricula` as the join table (a `Matricula` object exists where its `curso` is this and its `alumno` is that).
+  """
+  alumnos_via_Matricula(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Matricula_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Matricula_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Matricula_Having
+  ): [Alumno!]! @fdc_generated(from: "Matricula", purpose: QUERY_MULTIPLE_MANY_TO_MANY)
   """
   Implicit metadata field that cannot be written. It provides extra information about query results.
   """
@@ -158,4 +294,53 @@ extend type Curso {
   A generated field that is used for caching results in SDKs.
   """
   _id: ID! @fdc_generated(from: "Curso.id", purpose: ENTITY_ID)
+}
+extend type Matricula {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Matricula", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Matricula` table.
+  """
+  _count: Int! @fdc_generated(from: "Matricula.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Matricula` table where the `alumnoId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  alumnoId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Matricula.alumnoId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Matricula` table where the `cursoId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  cursoId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Matricula.cursoId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Matricula` table where the `fecha` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  fecha_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Matricula.fecha", purpose: QUERY_COUNT)
+  """
+  ✨ Minimum of the `fecha` field in the `Matricula` table.
+  """
+  fecha_min: Timestamp @fdc_generated(from: "Matricula.fecha", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `fecha` field in the `Matricula` table.
+  """
+  fecha_max: Timestamp @fdc_generated(from: "Matricula.fecha", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Matricula.alumnoId,cursoId", purpose: ENTITY_ID)
 }
