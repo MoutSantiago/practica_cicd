@@ -1,0 +1,490 @@
+"""
+✨ `Alumno_KeyOutput` returns the primary key fields of table type `Alumno`.
+
+It has the same format as `Alumno_Key`, but is only used as mutation return value.
+"""
+scalar Alumno_KeyOutput
+"""
+✨ `Curso_KeyOutput` returns the primary key fields of table type `Curso`.
+
+It has the same format as `Curso_Key`, but is only used as mutation return value.
+"""
+scalar Curso_KeyOutput
+"""
+✨ Generated data input type for table 'Alumno'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Alumno_Data {
+  """
+  ✨ Generated from Field `Alumno`.`id` of type `String!`
+  """
+  id: String
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Alumno`.`id` of type `String!`)
+  """
+  id_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Alumno`.`email` of type `String!`
+  """
+  email: String
+  """
+  ✨ `_expr` server value variant of `email` (✨ Generated from Field `Alumno`.`email` of type `String!`)
+  """
+  email_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Alumno`.`nombre` of type `String!`
+  """
+  nombre: String
+  """
+  ✨ `_expr` server value variant of `nombre` (✨ Generated from Field `Alumno`.`nombre` of type `String!`)
+  """
+  nombre_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Alumno'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Alumno_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Alumno_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Alumno_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Alumno_Filter!]
+  """
+  ✨ Generated from Field `Alumno`.`id` of type `String!`
+  """
+  id: String_Filter
+  """
+  ✨ Generated from Field `Alumno`.`email` of type `String!`
+  """
+  email: String_Filter
+  """
+  ✨ Generated from Field `Alumno`.`nombre` of type `String!`
+  """
+  nombre: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Alumno'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Alumno_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Alumno_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Alumno_Filter
+}
+"""
+✨ Generated having input type for table 'Alumno'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Alumno_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Alumno_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Alumno_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Alumno_Having!]
+  """
+  ✨ Generated from Field `Alumno`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Alumno`.`email_count` of type `Int!`
+  """
+  email_count: Int_Filter
+  """
+  ✨ Generated from Field `Alumno`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Alumno`.`nombre_count` of type `Int!`
+  """
+  nombre_count: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Alumno'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Alumno_Key {
+  """
+  ✨ Generated from Field `Alumno`.`id` of type `String!`
+  """
+  id: String
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Alumno`.`id` of type `String!`)
+  """
+  id_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Alumno'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Alumno_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Alumno_Filter
+}
+"""
+✨ Generated order input type for table 'Alumno'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Alumno_Order {
+  """
+  ✨ Generated from Field `Alumno`.`id` of type `String!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`email` of type `String!`
+  """
+  email: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`nombre` of type `String!`
+  """
+  nombre: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`email_count` of type `Int!`
+  """
+  email_count: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Alumno`.`nombre_count` of type `Int!`
+  """
+  nombre_count: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Curso'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Curso_Data {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Curso`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`cupo` of type `Int!`
+  """
+  cupo: Int
+  """
+  ✨ `_expr` server value variant of `cupo` (✨ Generated from Field `Curso`.`cupo` of type `Int!`)
+  """
+  cupo_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `cupo` (✨ Generated from Field `Curso`.`cupo` of type `Int!`)
+  """
+  cupo_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String!`
+  """
+  descripcion: String
+  """
+  ✨ `_expr` server value variant of `descripcion` (✨ Generated from Field `Curso`.`descripcion` of type `String!`)
+  """
+  descripcion_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`horas` of type `Int!`
+  """
+  horas: Int
+  """
+  ✨ `_expr` server value variant of `horas` (✨ Generated from Field `Curso`.`horas` of type `Int!`)
+  """
+  horas_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `horas` (✨ Generated from Field `Curso`.`horas` of type `Int!`)
+  """
+  horas_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`nivel` of type `String!`
+  """
+  nivel: String
+  """
+  ✨ `_expr` server value variant of `nivel` (✨ Generated from Field `Curso`.`nivel` of type `String!`)
+  """
+  nivel_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Curso`.`titulo` of type `String!`
+  """
+  titulo: String
+  """
+  ✨ `_expr` server value variant of `titulo` (✨ Generated from Field `Curso`.`titulo` of type `String!`)
+  """
+  titulo_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Curso'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Curso_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Curso_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Curso_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Curso_Filter!]
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo` of type `Int!`
+  """
+  cupo: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String!`
+  """
+  descripcion: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas` of type `Int!`
+  """
+  horas: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`nivel` of type `String!`
+  """
+  nivel: String_Filter
+  """
+  ✨ Generated from Field `Curso`.`titulo` of type `String!`
+  """
+  titulo: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Curso'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Curso_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Curso_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Curso_Filter
+}
+"""
+✨ Generated having input type for table 'Curso'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Curso_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Curso_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Curso_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Curso_Having!]
+  """
+  ✨ Generated from Field `Curso`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo_count` of type `Int!`
+  """
+  cupo_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`descripcion_count` of type `Int!`
+  """
+  descripcion_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas_count` of type `Int!`
+  """
+  horas_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`nivel_count` of type `Int!`
+  """
+  nivel_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`titulo_count` of type `Int!`
+  """
+  titulo_count: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo_sum` of type `Int`
+  """
+  cupo_sum: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas_sum` of type `Int`
+  """
+  horas_sum: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo_avg` of type `Float`
+  """
+  cupo_avg: Float_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas_avg` of type `Float`
+  """
+  horas_avg: Float_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo_min` of type `Int`
+  """
+  cupo_min: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas_min` of type `Int`
+  """
+  horas_min: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`cupo_max` of type `Int`
+  """
+  cupo_max: Int_Filter
+  """
+  ✨ Generated from Field `Curso`.`horas_max` of type `Int`
+  """
+  horas_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Curso'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Curso_Key {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Curso`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Curso'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Curso_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Curso_Filter
+}
+"""
+✨ Generated order input type for table 'Curso'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Curso_Order {
+  """
+  ✨ Generated from Field `Curso`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo` of type `Int!`
+  """
+  cupo: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`descripcion` of type `String!`
+  """
+  descripcion: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas` of type `Int!`
+  """
+  horas: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nivel` of type `String!`
+  """
+  nivel: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`titulo` of type `String!`
+  """
+  titulo: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo_count` of type `Int!`
+  """
+  cupo_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`descripcion_count` of type `Int!`
+  """
+  descripcion_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas_count` of type `Int!`
+  """
+  horas_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`nivel_count` of type `Int!`
+  """
+  nivel_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`titulo_count` of type `Int!`
+  """
+  titulo_count: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo_sum` of type `Int`
+  """
+  cupo_sum: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas_sum` of type `Int`
+  """
+  horas_sum: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo_avg` of type `Float`
+  """
+  cupo_avg: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas_avg` of type `Float`
+  """
+  horas_avg: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo_min` of type `Int`
+  """
+  cupo_min: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas_min` of type `Int`
+  """
+  horas_min: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`cupo_max` of type `Int`
+  """
+  cupo_max: OrderDirection
+  """
+  ✨ Generated from Field `Curso`.`horas_max` of type `Int`
+  """
+  horas_max: OrderDirection
+}

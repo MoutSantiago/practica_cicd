@@ -1,0 +1,236 @@
+extend type Mutation {
+  """
+  ✨ Insert a single `Alumno` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  alumno_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Alumno_Data!
+  ): Alumno_KeyOutput! @fdc_generated(from: "Alumno", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Curso` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  curso_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Curso_Data!
+  ): Curso_KeyOutput! @fdc_generated(from: "Curso", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Alumno` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  alumno_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Alumno_Data!]!
+  ): [Alumno_KeyOutput!]! @fdc_generated(from: "Alumno", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `Curso` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  curso_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Curso_Data!]!
+  ): [Curso_KeyOutput!]! @fdc_generated(from: "Curso", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `Alumno` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Alumno`.
+  """
+  alumno_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Alumno_Data!
+  ): Alumno_KeyOutput! @fdc_generated(from: "Alumno", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `Curso` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Curso`.
+  """
+  curso_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Curso_Data!
+  ): Curso_KeyOutput! @fdc_generated(from: "Curso", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `Alumno` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Alumno`.
+  """
+  alumno_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Alumno_Data!]!
+  ): [Alumno_KeyOutput!]! @fdc_generated(from: "Alumno", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Curso` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Curso`.
+  """
+  curso_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Curso_Data!]!
+  ): [Curso_KeyOutput!]! @fdc_generated(from: "Curso", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Alumno` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Alumno` or `null` if not found.
+  """
+  alumno_update(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: Alumno_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Alumno_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Alumno_Data!
+  ): Alumno_KeyOutput @fdc_generated(from: "Alumno", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `Curso` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Curso` or `null` if not found.
+  """
+  curso_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Curso_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Curso_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Curso_Data!
+  ): Curso_KeyOutput @fdc_generated(from: "Curso", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `Alumno` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  alumno_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Alumno_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Alumno_Data!
+  ): Int! @fdc_generated(from: "Alumno", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Curso` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  curso_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Curso_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Curso_Data!
+  ): Int! @fdc_generated(from: "Curso", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Alumno` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  alumno_delete(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: Alumno_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Alumno_FirstRow
+  ): Alumno_KeyOutput @fdc_generated(from: "Alumno", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `Curso` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  curso_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Curso_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Curso_FirstRow
+  ): Curso_KeyOutput @fdc_generated(from: "Curso", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Alumno` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  alumno_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Alumno_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Alumno", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Curso` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  curso_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Curso_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Curso", purpose: DELETE_MULTIPLE)
+}

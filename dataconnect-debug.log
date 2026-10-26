@@ -1,0 +1,30 @@
+I1026 20:08:24.147231   21045 load.go:31] Reloading schema and connectors...
+I1026 20:08:24.164890   21045 control.go:92] [projects/emulator/locations/emulator/services/catalogo a4ec] UpdateResources(): done
+Main schema: sources: schema/schema.gql [2530B] 
+Connector "cursos": sources: cursos/mutations.gql [2550B] cursos/queries.gql [2671B] 
+I1026 20:08:24.176321   21045 collector.go:107] schema extensions wrote into "/home/santiago/Projects/Uni/Avanzada/practica_cicd/dataconnect/.dataconnect/schema"
+Generated sources: main/mutation.gql [6900B] prelude.gql [84995B] main/implicit.gql [257B] main/input.gql [13748B] main/relation.gql [5745B] main/query.gql [2613B] 
+I1026 20:08:24.176364   21045 load.go:109] Finished reloading
+I1026 20:08:24.176572   21045 dev.go:103] Listening on address (HTTP + gRPC): 127.0.0.1:9399
+I1026 20:08:24.176611   21045 dev.go:103] Listening on address (HTTP + gRPC): [::1]:9399
+I1026 20:08:28.469452   21045 migrate.go:24] Running migration SQL:
+Step 1: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+Step 2: CREATE TABLE "public"."alumno" ("id" text NOT NULL, "email" text NOT NULL, "nombre" character varying(80) NOT NULL, PRIMARY KEY ("id"))
+Step 3: CREATE TABLE "public"."curso" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "cupo" integer NOT NULL, "descripcion" text NOT NULL, "horas" integer NOT NULL, "nivel" character varying(20) NOT NULL, "titulo" character varying(120) NOT NULL, PRIMARY KEY ("id"))
+I1026 20:08:29.328946   21045 control.go:92] [projects/emulator/locations/emulator/services/catalogo 699e] UpdateResources(): done
+Main schema: sources: schema/schema.gql [2530B] 
+Connector "cursos": sources: cursos/mutations.gql [2550B] cursos/queries.gql [2671B] 
+I1026 20:08:29.334495   21045 configure_emulator.go:21] ConfigureEmulator successed
+Request: service_id: "catalogo"
+connection_string: "postgres://127.0.0.1:5432/fdcdb?sslmode=disable"
+database: "fdcdb"
+
+Response: 
+I1026 20:09:26.403935   21045 execute.go:57] Database ping is quick (likely cached), took 743.545µs
+I1026 20:09:26.450946   21045 engine.go:216] [projects/emulator/locations/emulator/services/catalogo 699e] ExecuteGraphql mutation : succeeded. 
+I1026 20:10:08.731354   21045 execute.go:57] Database ping is quick (likely cached), took 884.234µs
+I1026 20:10:08.775464   21045 engine.go:216] [projects/emulator/locations/emulator/services/catalogo 699e] ExecuteQuery query ListCursos: succeeded. Connector: cursos
+W1026 20:10:08.817452   21045 execute.go:51] Database ping is slow 41.82723ms
+stats before: sql.DBStats{MaxOpenConnections:0, OpenConnections:1, InUse:0, Idle:1, WaitCount:0, WaitDuration:0, MaxIdleClosed:0, MaxIdleTimeClosed:0, MaxLifetimeClosed:0}
+stats After: sql.DBStats{MaxOpenConnections:0, OpenConnections:1, InUse:0, Idle:1, WaitCount:0, WaitDuration:0, MaxIdleClosed:0, MaxIdleTimeClosed:0, MaxLifetimeClosed:0}
+I1026 20:10:08.863960   21045 engine.go:216] [projects/emulator/locations/emulator/services/catalogo 699e] ExecuteQuery query ListCursos: succeeded. Connector: cursos

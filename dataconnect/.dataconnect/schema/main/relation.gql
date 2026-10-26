@@ -1,0 +1,161 @@
+extend type Alumno {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Alumno", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Alumno` table.
+  """
+  _count: Int! @fdc_generated(from: "Alumno.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Alumno` table where the `email` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  email_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Alumno.email", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Alumno` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Alumno.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Alumno` table where the `nombre` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  nombre_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Alumno.nombre", purpose: QUERY_COUNT)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Alumno.id", purpose: ENTITY_ID)
+}
+extend type Curso {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Curso", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Curso` table.
+  """
+  _count: Int! @fdc_generated(from: "Curso.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `cupo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  cupo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.cupo", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `descripcion` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  descripcion_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.descripcion", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `horas` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  horas_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.horas", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `nivel` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  nivel_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.nivel", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Curso` table where the `titulo` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  titulo_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Curso.titulo", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `cupo` field in the `Curso` table.
+  """
+  cupo_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Curso.cupo", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `horas` field in the `Curso` table.
+  """
+  horas_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "Curso.horas", purpose: QUERY_SUM)
+  """
+  ✨ Average the `cupo` field in the `Curso` table.
+  """
+  cupo_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Curso.cupo", purpose: QUERY_AVG)
+  """
+  ✨ Average the `horas` field in the `Curso` table.
+  """
+  horas_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "Curso.horas", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `cupo` field in the `Curso` table.
+  """
+  cupo_min: Int @fdc_generated(from: "Curso.cupo", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `horas` field in the `Curso` table.
+  """
+  horas_min: Int @fdc_generated(from: "Curso.horas", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `cupo` field in the `Curso` table.
+  """
+  cupo_max: Int @fdc_generated(from: "Curso.cupo", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `horas` field in the `Curso` table.
+  """
+  horas_max: Int @fdc_generated(from: "Curso.horas", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Curso.id", purpose: ENTITY_ID)
+}
