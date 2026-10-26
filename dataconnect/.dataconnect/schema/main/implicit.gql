@@ -4,3 +4,13 @@ extend type Curso {
   """
   id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Curso", purpose: IMPLICIT_KEY_FIELD)
 }
+extend type Matricula {
+  """
+  ✨ Implicit foreign key field based on `Matricula`.`alumno`. It must match the value of `Alumno`.`id`. See `@ref` for how to customize it.
+  """
+  alumnoId: String! @fdc_generated(from: "Matricula.alumno", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Matricula`.`curso`. It must match the value of `Curso`.`id`. See `@ref` for how to customize it.
+  """
+  cursoId: UUID! @fdc_generated(from: "Matricula.curso", purpose: IMPLICIT_REF_FIELD)
+}
