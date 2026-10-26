@@ -19,3 +19,5 @@ firebase-debug.*.log
 # varios
 .env*.local
 .DS_Store
+
+clase_2_sql_connect_enunciado.md
