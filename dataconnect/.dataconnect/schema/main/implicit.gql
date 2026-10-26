@@ -1,0 +1,6 @@
+extend type Curso {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Curso", purpose: IMPLICIT_KEY_FIELD)
+}

@@ -1,0 +1,113 @@
+extend type Query {
+  """
+  ✨ Look up a single `Alumno` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  alumno(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: Alumno_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Alumno_FirstRow
+  ): Alumno @fdc_generated(from: "Alumno", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Curso` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  curso(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Curso_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Curso_FirstRow
+  ): Curso @fdc_generated(from: "Curso", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Alumno` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  alumnos(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Alumno_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Alumno_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Alumno_Having
+  ): [Alumno!]! @fdc_generated(from: "Alumno", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Curso` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  cursos(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Curso_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Curso_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Curso_Having
+  ): [Curso!]! @fdc_generated(from: "Curso", purpose: QUERY_MULTIPLE)
+}
