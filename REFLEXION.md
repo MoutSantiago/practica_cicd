@@ -10,7 +10,7 @@ El preview tiene vencimiento (`expires: 3d`) porque es un entorno efímero para 
 
 ## 2. ¿Qué diferencia hay entre desplegar y liberar? ¿Dónde aparece cada concepto en este flujo?
 
-**Desplegar** es subir una versión a un entorno (preview o live). **Liberar** es poner esa versión a disposición de los usuarios finales. En este flujo, el workflow despliega automáticamente al canal `live` al mergear a `main`, pero la liberación real ocurre cuando los usuarios acceden a `https://practica-d4848.web.app/`. El rollback de Firebase revierte lo desplegado sin tocar el código de `main`.
+**Desplegar** es subir una versión a un entorno (preview o live). **Liberar** es poner esa versión a disposición de los usuarios finales. En este flujo, el workflow despliega automáticamente al canal `live` al mergear a `main`, pero la liberación real ocurre cuando los usuarios acceden a `https://prueba-6cd12.web.app/`. El rollback de Firebase revierte lo desplegado sin tocar el código de `main`.
 
 Como `main` conserva el código nuevo, el próximo merge volverá a desplegar esa versión. En un equipo real se resuelve con un **revert** (commit que deshace los cambios en `main`) o un hotfix, no confiando solo en el rollback de Hosting.
 
@@ -78,14 +78,14 @@ Los 5 headers aparecen presentes en `/`, `/cursos`, el 404 y los assets estátic
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
 | URL al repocitorio | `https://github.com/MoutSantiago/practica_cicd`                                                                           |
 | Link a PR mergeado | `https://github.com/MoutSantiago/practica_cicd/pull/7` (incluye el comentario del bot de Firebase con la URL del preview) |
-| URL de producción  | `https://practica-d4848.web.app/`                                                                                         |
-| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848`                                                                                 |
-| Project ID         | `practica-d4848`                                                                                                          |
+| URL de producción  | `https://prueba-6cd12.web.app/`                                                                                         |
+| Nombre del secreto | `FIREBASE_SERVICE_ACCOUNT_PRUEBA_6CD12`                                                                                 |
+| Project ID         | `prueba-6cd12`                                                                                                          |
 
 ### Salida de `check-headers.mjs` **antes**
 
 ```
-  ▶ HTML: https://practica-d4848.web.app/
+  ▶ HTML: https://prueba-6cd12.web.app/
     status 200
     ✘ content-security-policy (falta)
     ✔ strict-transport-security: max-age=31556926; includeSubDomains; preload
@@ -104,7 +104,7 @@ Los 5 headers aparecen presentes en `/`, `/cursos`, el 404 y los assets estátic
 ### Salida de `check-headers.mjs` **después**
 
 ```
-  ▶ HTML: https://practica-d4848.web.app/
+  ▶ HTML: https://prueba-6cd12.web.app/
     status 200
     ✔ content-security-policy: default-src 'self'; script-src 'self' sha256-ohBYDP4jDEhpM4V4o0iLmc/txsVyq1JPbtSx6ah7HBw= sha256-OBTN3RiyCV4Bq…
     ✔ strict-transport-security: max-age=31556926; includeSubDomains; preload
