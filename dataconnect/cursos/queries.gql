@@ -29,20 +29,22 @@ query ListAlumnos @auth(level: PUBLIC, insecureReason: "Lo necesita el panel de 
   }
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  TODO L3: Query `MisInscripciones`
+# Query `MisInscripciones` (L3)
 #   - Solo para usuarios autenticados.
 #   - Devuelve los cursos en los que está inscripto EL USUARIO QUE LLAMA
-#     (sin recibir el id del alumno como variable: ¿por qué no?).
+#     (sin recibir el id del alumno como variable: evita IDOR).
 #   - Para cada inscripción: fecha y, del curso, id, titulo, nivel y horas.
-#
-#  Forma esperada de la respuesta (la usa app/mis-inscripciones):
-#   { "alumno": { "nombre": "...", "matriculas": [ { "fecha": "...", "curso": { ... } } ] } }
-#
-#  Pistas:
-#   - Buscar un registro por clave usando el usuario autenticado:
-#       alumno(key: { id_expr: "auth.uid" }) { ... }
-#   - Desde un alumno, sus filas de Matricula se acceden con el campo generado
-#       matriculas_on_alumno
-#     y se le puede poner un alias:  matriculas: matriculas_on_alumno { ... }
-# ─────────────────────────────────────────────────────────────────────────────
+query MisInscripciones @auth(level: USER) {
+  alumno(key: { id_expr: "auth.uid" }) {
+    nombre
+    matriculas: matriculas_on_alumno {
+      fecha
+      curso {
+        id
+        titulo
+        nivel
+        horas
+      }
+    }
+  }
+}
