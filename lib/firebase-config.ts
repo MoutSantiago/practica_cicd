@@ -10,10 +10,13 @@
  * si estos valores son reales. Para producción tenés que completarlos.
  */
 export const firebaseConfig = {
-  apiKey: "REEMPLAZAR",
-  authDomain: "REEMPLAZAR-POR-TU-PROJECT-ID.firebaseapp.com",
-  projectId: "REEMPLAZAR-POR-TU-PROJECT-ID",
-  appId: "REEMPLAZAR",
+  apiKey: "AIzaSyCtMxxcHGsRNEqElt8WYS_KIh-0mPDYbGs",
+  authDomain: "prueba-6cd12.firebaseapp.com",
+  projectId: "prueba-6cd12",
+  storageBucket: "prueba-6cd12.firebasestorage.app",
+  messagingSenderId: "1035222837386",
+  appId: "1:1035222837386:web:1b6285e38515fe4157e573",
+  measurementId: "G-JXWPE6PBLX",
 };
 
 /** Debe coincidir con dataconnect/dataconnect.yaml y dataconnect/cursos/connector.yaml */
