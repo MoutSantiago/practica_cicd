@@ -12,6 +12,14 @@ next-env.d.ts
 firebase-debug.log
 firebase-debug.*.log
 
+# Emulador SQL Connect (datos locales, no se commitean)
+dataconnect/.dataconnect/
+
+# Logs de debug del emulador
+dataconnect-debug.log
+pglite-debug.log
+*.log
+
 # NUNCA commitear claves de service account
 *service-account*.json
 *-firebase-adminsdk-*.json

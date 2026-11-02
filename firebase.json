@@ -3,7 +3,11 @@
     "public": "out",
     "cleanUrls": true,
     "trailingSlash": false,
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "headers": [
       {
         "source": "**",
@@ -49,12 +53,23 @@
       }
     ]
   },
-  "dataconnect": { "source": "dataconnect" },
+  "dataconnect": {
+    "source": "dataconnect"
+  },
   "emulators": {
-    "auth": { "port": 9099 },
-    "dataconnect": { "port": 9399, "dataDir": "dataconnect/.dataconnect/pgliteData" },
-    "hosting": { "port": 5000 },
-    "ui": { "enabled": true },
+    "auth": {
+      "port": 9099
+    },
+    "dataconnect": {
+      "port": 9399,
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
     "singleProjectMode": true
   }
 }

@@ -53,7 +53,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           # TODO A3: mismo secreto que en el workflow de PR.
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRACTICA_D4848 }}
-          projectId: practica-d4848
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBA_6CD12 }}
+          projectId: prueba-6cd12
           # TODO A3: ¿qué valor de channelId publica en producción?
           channelId: live
