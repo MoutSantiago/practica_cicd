@@ -25,7 +25,11 @@ mutation Inscribirme($cursoId: UUID!) @auth(level: USER) {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  TODO L5 (opcional): Mutation `DarmeDeBaja($cursoId: UUID!)`
+#  L5 (opcional): Mutation `DarmeDeBaja($cursoId: UUID!)`
 #   - Borra la inscripción del usuario que llama en ese curso, y solo esa.
-#   - Pista: matricula_delete(key: { ... })
+#   - matricula_delete con clave compuesta (alumnoId, cursoId) usando auth.uid
+#     para que un usuario no pueda dar de baja a otro (evita IDOR).
 # ─────────────────────────────────────────────────────────────────────────────
+mutation DarmeDeBaja($cursoId: UUID!) @auth(level: USER) {
+  matricula_delete(key: { alumnoId_expr: "auth.uid", cursoId: $cursoId })
+}
