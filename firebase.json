@@ -3,11 +3,7 @@
     "public": "out",
     "cleanUrls": true,
     "trailingSlash": false,
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "**",
@@ -34,7 +30,7 @@
           },
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-east4-dataconnect.googleapis.com; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-east4-dataconnect.googleapis.com https://firestore.googleapis.com; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
           },
           {
             "key": "Cache-Control",
@@ -60,6 +56,9 @@
     "auth": {
       "port": 9099
     },
+    "firestore": {
+      "port": 8080
+    },
     "dataconnect": {
       "port": 9399,
       "dataDir": "dataconnect/.dataconnect/pgliteData"
@@ -71,5 +70,11 @@
       "enabled": true
     },
     "singleProjectMode": true
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "southamerica-east1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
