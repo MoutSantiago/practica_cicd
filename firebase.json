@@ -3,11 +3,7 @@
     "public": "out",
     "cleanUrls": true,
     "trailingSlash": false,
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "**",
@@ -60,6 +56,9 @@
     "auth": {
       "port": 9099
     },
+    "firestore": {
+      "port": 8080
+    },
     "dataconnect": {
       "port": 9399,
       "dataDir": "dataconnect/.dataconnect/pgliteData"
@@ -71,5 +70,11 @@
       "enabled": true
     },
     "singleProjectMode": true
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "southamerica-east1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }
