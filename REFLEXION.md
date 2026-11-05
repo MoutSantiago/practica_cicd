@@ -202,14 +202,12 @@ Conviene listar **dominios exactos** (no comodines como `https://*.googleapis.co
 
 Reemplazá los placeholders abajo con la información real de tus entregables:
 
-| Entregable                                                           | Valor                                                                               |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Salida de `npm run atacar` **antes** (con `ListAlumnos` como `vuln`) | Pegá acá la salida del emulador antes de corregir L4                                |
-| Salida de `npm run atacar` **después** (sin vulnerabilidades)        | Pegá acá la salida del emulador después de corregir L4                              |
-| URL de producción                                                    | `https://prueba-6cd12.web.app/`                                                     |
-| Link al repo                                                         | `https://github.com/MoutSantiago/practica_cicd`                                     |
-| Link a PR mergeado con CSP (L6)                                      | URL del PR que mergeaste a `main` con el cambio de `firebase.json`                  |
-| Producción con inscripción funcionando                               | Verificá que se pueda crear cuenta e inscribirse en `https://prueba-6cd12.web.app/` |
+| Entregable                             | Valor                                                   |
+| -------------------------------------- | ------------------------------------------------------- |
+| URL de producción                      | `https://prueba-6cd12.web.app/`                         |
+| Link al repo                           | `https://github.com/MoutSantiago/practica_cicd`         |
+| Link a PR mergeado con CSP (L6)        | `https://github.com/MoutSantiago/practica_cicd/pull/17` |
+| Producción con inscripción funcionando | `https://prueba-6cd12.web.app/`                         |
 
 ### Salida de `npm run atacar` antes de L4
 
