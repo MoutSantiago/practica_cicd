@@ -42,3 +42,29 @@ export function firestore(): Firestore {
 }
 
 const resenasDe = (cursoId: string) => collection(firestore(), "cursos", cursoId, "resenas");
+
+/** Paso 3: Crear o editar MI reseña. El id del documento es mi UID: una reseña por persona y curso. */
+export async function guardarResena(
+  cursoId: string,
+  puntaje: number,
+  texto: string,
+  esNueva: boolean
+): Promise<void> {
+  const usuario = getAuth().currentUser;
+  if (!usuario) throw new Error("Tenés que ingresar para dejar una reseña.");
+
+  const ref = doc(resenasDe(cursoId), usuario.uid);
+  const datos = { puntaje, texto, autor: usuario.displayName ?? "Anónimo" };
+
+  if (esNueva) {
+    await setDoc(ref, { ...datos, creadaEn: serverTimestamp() });
+  } else {
+    await setDoc(ref, datos, { merge: true }); // conserva creadaEn
+  }
+}
+
+export async function borrarResena(cursoId: string): Promise<void> {
+  const usuario = getAuth().currentUser;
+  if (!usuario) return;
+  await deleteDoc(doc(resenasDe(cursoId), usuario.uid));
+}
