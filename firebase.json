@@ -30,7 +30,7 @@
           },
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-east4-dataconnect.googleapis.com; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-east4-dataconnect.googleapis.com https://firestore.googleapis.com; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
           },
           {
             "key": "Cache-Control",
