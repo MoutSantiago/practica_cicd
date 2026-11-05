@@ -97,3 +97,14 @@ export function escucharResenas(
     alFallar,
   );
 }
+
+/** Paso 5: Promedio y cantidad calculados por el servidor (consulta de agregación). */
+export async function resumenDe(
+  cursoId: string
+): Promise<{ cantidad: number; promedio: number | null }> {
+  const snap = await getAggregateFromServer(resenasDe(cursoId), {
+    cantidad: count(),
+    promedio: average("puntaje"),
+  });
+  return snap.data();
+}
