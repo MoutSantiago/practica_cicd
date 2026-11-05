@@ -253,3 +253,192 @@ Auditoría de SQL Connect · proyecto practica-d4848 · emuladores locales
 
 … Sin vulnerabilidades detectadas, 1 control(es) pendiente(s)
 ```
+
+---
+
+## Reflexión · Clase 3 · Cloud Firestore
+
+---
+
+### 1. ¿Por qué el id del documento es el UID? ¿Qué tendrías que agregar (en reglas o en código) si usaras ids aleatorios con `addDoc`?
+
+El id del documento es el UID para garantizar **una reseña por persona y curso**: escribir en `cursos/{cursoId}/resenas/{uid}` con el mismo UID sobrescribe la reseña existente en lugar de crear una duplicada, y las reglas pueden comparar `request.auth.uid == uid` para verificar autoría.
+
+Si usáramos ids aleatorios con `addDoc`, tendríamos que agregar en las reglas una validación de que el documento no exista antes de crear (para evitar duplicados) y un campo `autor` con `request.auth.uid` para saber quién la escribió, además de validar en cada operación que `request.auth.uid == datos.autor`. Es más frágil y requiere más lógica en las reglas.
+
+---
+
+### 2. La reseña guarda una copia del nombre del autor. ¿Qué ganás y qué perdés con esa desnormalización? ¿Cómo resolverías el cambio de nombre?
+
+**Ganás:** mostrar la lista de reseñas no requiere una lectura extra por reseña para buscar el nombre del autor; es más rápido y barato en lecturas de Firestore.
+
+**Perdés:** si el usuario cambia su nombre de perfil, las reseñas viejas conservan el nombre antiguo (datos inconsistentes).
+
+**Cómo resolverlo:** en la Práctica 5 se podría escribir el resumen desde el servidor (Cloud Function o trigger) que actualice el nombre en todas las reseñas de ese usuario cuando cambie su perfil, o aceptar la inconsistencia como trade-off del modelo documental.
+
+---
+
+### 3. ¿Qué diferencia hay entre `resource.data` y `request.resource.data`? Dá un ejemplo de regla que use ambos.
+
+- `resource.data`: los datos del documento **antes** de la operación (el documento actual en la base de datos).
+- `request.resource.data`: los datos del documento **después** de la operación (lo que el cliente intenta escribir).
+
+**Ejemplo:** en la regla de `update` de reseñas se usa ambos para exigir que la fecha de creación no cambie:
+
+```
+allow update: if esDuenio(uid)
+  && resenaValida()
+  && request.resource.data.creadaEn == resource.data.creadaEn; // inmutable
+```
+
+Si alguien intenta modificar `creadaEn`, `request.resource.data.creadaEn` sería distinto a `resource.data.creadaEn` y la regla rechaza la escritura.
+
+---
+
+### 4. ¿Por qué la regla de creación exige `creadaEn == request.time` en lugar de confiar en la fecha del cliente?
+
+Porque el reloj del cliente no es confiable: puede estar mal configurado o ser manipulado intencionalmente. Si se confiara en la fecha del cliente, un usuario podría backdated reseñas (poner fechas pasadas o futuras). Con `creadaEn == request.time` y `serverTimestamp()` en el cliente, el servidor impone su propio reloj, garantizando que la fecha sea la real del servidor al momento de escribir.
+
+---
+
+### 5. ¿Qué limitación tiene `getAggregateFromServer` y cómo afecta la experiencia de usuario? ¿Qué alternativas hay?
+
+**Limitación:** no admite listeners en tiempo real ni funciona offline. Solo se puede consultar una vez bajo demanda.
+
+**Impacto en la UX:** el resumen (cantidad y promedio) no se actualiza solo cuando llega una reseña nueva; el componente debe volver a pedirlo manualmente (por ejemplo, cuando cambia la cantidad de reseñas locales). Hay un pequeño retraso entre que se publica una reseña y que el promedio se actualiza en pantalla.
+
+**Alternativas:** mantener el resumen denormalizado en el documento del curso (actualizado desde el servidor con una Cloud Function o trigger cada vez que se crea una reseña), como se planea para la Práctica 5.
+
+---
+
+### 6. Para inscripciones con cupo máximo, ¿usarías Firestore o SQL Connect? Justificá con lo que viste en las dos prácticas.
+
+Usaría **SQL Connect**. Las inscripciones con cupo máximo requieren integridad referencial (clave foránea entre alumno y curso), clave primaria compuesta para evitar duplicados, y transacciones atómicas para verificar el cupo antes de inscribir. Eso encaja mejor en un modelo relacional con esquema fijo.
+
+En Firestore se podría simular con reglas y transacciones, pero es más frágil: no hay JOINs nativos, validar el cupo requiere leer el documento del curso y las reseñas en una transacción, y no hay restricciones de esquema que impidan datos inconsistentes. SQL Connect fue diseñado exactamente para este tipo de casos.
+
+---
+
+## Evidencia pendiente de completar (Clase 3)
+
+| Entregable                                | Valor                                                   |
+| ----------------------------------------- | ------------------------------------------------------- |
+| URL de producción con reseñas funcionando | `https://prueba-6cd12.web.app/`                         |
+| Link a PR mergeado con Firestore (L6-L9)  | `https://github.com/MoutSantiago/practica_cicd/pull/20` |
+
+### Salida de `npm run test:reglas` con todos los tests pasados
+
+```
+npm notice run practica-firebase-cicd@1.0.0 test:reglas
+npm notice run firebase emulators:exec --only firestore "node --test tests/"
+i  emulators: Starting emulators: firestore
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/
+✔ cualquiera puede leer reseñas, incluso sin login (1181.774404ms)
+✔ Ana puede crear SU reseña (257.50748ms)
+[2026-11-05T01:04:21.292Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb0 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ Ana NO puede crear una reseña a nombre de Bruno (71.177781ms)
+[2026-11-05T01:04:21.345Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb1 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ sin login no se puede escribir (52.016097ms)
+[2026-11-05T01:04:21.409Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb2 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L32:26 for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+[2026-11-05T01:04:21.438Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb3 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L32:26 for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+✔ puntaje fuera de rango o con decimales se rechaza (92.565074ms)
+[2026-11-05T01:04:21.495Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb4 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L32:26 for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+✔ no se pueden agregar campos extra (p. ej. destacada: true) (56.236563ms)
+[2026-11-05T01:04:21.547Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb5 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+[2026-11-05T01:04:21.588Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb6 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ la fecha de creación la pone el servidor y no se puede cambiar (111.516549ms)
+[2026-11-05T01:04:21.648Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x5b5b8cb8 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L27, false for 'create' @ L44, false for 'update' @ L27, false for 'update' @ L44
+✔ el cliente no puede escribir el documento del curso (41.543777ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2118.881684
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+```
+
+### Salida de `npm run test:reglas` con un test fallido
+
+```
+npm notice run practica-firebase-cicd@1.0.0 test:reglas
+npm notice run firebase emulators:exec --only firestore "node --test tests/"
+i  emulators: Starting emulators: firestore
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test tests/
+✔ cualquiera puede leer reseñas, incluso sin login (1171.760571ms)
+✔ Ana puede crear SU reseña (216.367654ms)
+[2026-11-05T01:05:29.332Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f40934 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ Ana NO puede crear una reseña a nombre de Bruno (66.03426ms)
+[2026-11-05T01:05:29.381Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f40935 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ sin login no se puede escribir (48.01319ms)
+✖ puntaje fuera de rango o con decimales se rechaza (58.412137ms)
+[2026-11-05T01:05:29.505Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f40937 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L32:26 for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+✔ no se pueden agregar campos extra (p. ej. destacada: true) (65.036796ms)
+[2026-11-05T01:05:29.554Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f40938 error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L32, false for 'create' @ L44, evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'create' @ L32, false for 'create' @ L44
+[2026-11-05T01:05:29.596Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f40939 error. Code: 7 Message: 7 PERMISSION_DENIED:
+evaluation error at L35:26 for 'update' @ L35, false for 'update' @ L44, false for 'update' @ L35, false for 'update' @ L44
+✔ la fecha de creación la pone el servidor y no se puede cambiar (106.213583ms)
+[2026-11-05T01:05:29.651Z]  @firebase/firestore: Firestore (13.1.0): GrpcConnection RPC 'Write' stream 0x26f4093b error. Code: 7 Message: 7 PERMISSION_DENIED:
+false for 'create' @ L27, false for 'create' @ L44, false for 'update' @ L27, false for 'update' @ L44
+✔ el cliente no puede escribir el documento del curso (38.76884ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1989.609791
+
+✖ failing tests:
+
+test at tests/reglas.test.mjs:43:1
+✖ puntaje fuera de rango o con decimales se rechaza (58.412137ms)
+  Error: Expected request to fail, but it succeeded.
+      at file:///home/santiago/Projects/uni/avanzada/practica_cicd/node_modules/@firebase/rules-unit-testing/dist/esm/index.esm.js:572:31
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///home/santiago/Projects/uni/avanzada/practica_cicd/tests/reglas.test.mjs:46:3)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+⚠  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node --test tests/" exited with code 1
+```
+
+### Capturas de reseña
+
+Usuario 1 crea una reseña
+
+![alt text](image-2.png)
+
+Usuario 2 ve la reseña sin tener que refrescar la pagina
+
+![alt text](image-3.png)
