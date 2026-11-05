@@ -4,7 +4,7 @@
   "private": true,
   "description": "Práctica de Programación Avanzada: Next.js + Firebase Hosting + SQL Connect + Analytics",
   "scripts": {
-    "dev": "next dev",
+    "dev": "NEXT_PUBLIC_USE_EMULATORS=true next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "serve": "firebase emulators:start --only hosting",

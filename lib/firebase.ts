@@ -6,11 +6,11 @@ import { connectDataConnectEmulator, getDataConnect, type DataConnect } from "fi
 import { firebaseConfig, sqlConnectConfig } from "./firebase-config";
 
 /**
- * En `npm run dev` (NODE_ENV=development) la app habla con los emuladores locales:
- *   Auth → 127.0.0.1:9099   ·   SQL Connect → 127.0.0.1:9399
- * En el build de producción (`npm run build`) habla con los servicios reales.
+ * La app usa los emuladores locales solo cuando NEXT_PUBLIC_USE_EMULATORS=true
+ * (definido en el script `dev`). En producción (`npm run build`) no se define,
+ * así que se conecta a los servicios reales de Firebase.
  */
-export const USA_EMULADORES = process.env.NODE_ENV === "development";
+export const USA_EMULADORES = process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
 
 let cache: { app: FirebaseApp; auth: Auth; dc: DataConnect } | null = null;
 

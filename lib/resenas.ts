@@ -35,7 +35,7 @@ let db: Firestore | null = null;
 export function firestore(): Firestore {
   if (db) return db;
   db = getFirestore(getApp());
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NEXT_PUBLIC_USE_EMULATORS === "true") {
     connectFirestoreEmulator(db, "127.0.0.1", 8080);
   }
   return db;
