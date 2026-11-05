@@ -68,3 +68,32 @@ export async function borrarResena(cursoId: string): Promise<void> {
   if (!usuario) return;
   await deleteDoc(doc(resenasDe(cursoId), usuario.uid));
 }
+
+/** Paso 4: Últimas reseñas en tiempo real. Devuelve la función para cancelar la suscripción. */
+export function escucharResenas(
+  cursoId: string,
+  alCambiar: (resenas: Resena[]) => void,
+  alFallar: (e: Error) => void,
+  soloCincoEstrellas = false,
+): Unsubscribe {
+  const filtros = soloCincoEstrellas ? [where("puntaje", "==", 5)] : [];
+  const q = query(resenasDe(cursoId), ...filtros, orderBy("creadaEn", "desc"), limit(20));
+
+  return onSnapshot(
+    q,
+    (snap) =>
+      alCambiar(
+        snap.docs.map((d) => {
+          const data = d.data({ serverTimestamps: "estimate" });
+          return {
+            uid: d.id,
+            puntaje: data.puntaje,
+            texto: data.texto,
+            autor: data.autor,
+            creadaEn: data.creadaEn ?? null,
+          };
+        })
+      ),
+    alFallar,
+  );
+}
